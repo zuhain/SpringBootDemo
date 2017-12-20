@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/head :: common-header"></head>
+<body>
+
+	<div th:replace="common/navbar :: common-navbar"></div>
+
+	<div class="container">
+	<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+	<div class="well">
+	<div class="text-center">
+	<h1>We value your feedback</h1>
+	<p>Let us know what you think</p>
+	<form id="contactForm" th:action="@{/contact}" th:object="${feedback}" method="post" class="text-left">
+		<div class="form-group">
+		<label for="email" >Email:</label>
+		<input class="form-control" type="email" id="email" th:field="*{email}"/>
+		</div>
+		<div class="form-group">
+		<label for="firstName" >First Name:</label>
+		<input class="form-control" type="text" id="firstName" th:field="*{firstName}"/>
+		</div>
+		<div class="form-group">
+		<label for="lastName" >Last Name:</label>
+		<input class="form-control" type="text" id="lastName" th:field="*{lastName}"/>
+		</div>
+		<div class="form-group">
+		<label for="feedback" >Feedback:</label>
+		<textarea class="form-control" id="feedback" th:field="*{feedback}"></textarea>
+		</div>
+		<div class="form-group">
+		<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+	</form>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+	<div th:replace="common/head :: before-body-scripts"></div>
+</body>
+</html>
