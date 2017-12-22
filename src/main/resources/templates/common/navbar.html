@@ -17,6 +17,9 @@
                 <li><a th:text="#{navbar.about}" href="/about"></a></li>
                 <li><a th:text="#{navbar.contact}" href="/contact"></a></li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+            	<li><a th:href="@{/login}" th:text="#{navbar.login}"></a></li>
+            </ul>
         </div><!--/.nav-collapse -->
     </div>
 </div>
