@@ -20,6 +20,9 @@ import com.spring.backend.persistance.domain.backend.UserRoleEntity;
 import com.spring.backend.persistance.repositories.PlanRepository;
 import com.spring.backend.persistance.repositories.RoleRepository;
 import com.spring.backend.persistance.repositories.UserRepository;
+import com.spring.enums.PlansEnum;
+import com.spring.enums.RolesEnum;
+import com.spring.utils.UserUtils;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -41,53 +44,33 @@ public class RepositoriesTestIntegration {
 	
 	@Test
 	public void testPlanRepository() {
-		PlanEntity plan=new PlanEntity();
-		plan.setId(1);
-		plan.setName("Basic");
+		PlanEntity plan=new PlanEntity(PlansEnum.BASIC);
 		planRepository.save(plan);
-		PlanEntity retrievedPlan=planRepository.findOne(1);
+		PlanEntity retrievedPlan=planRepository.findOne(PlansEnum.BASIC.getId());
 		Assert.assertNotNull(retrievedPlan);
 	}
 	
 	@Test
 	public void testRoleRepository() {
-		RoleEntity roleEntity=new RoleEntity();
-		roleEntity.setId(1);
-		roleEntity.setName("User");
+		RoleEntity roleEntity=new RoleEntity(RolesEnum.BASIC);
 		roleRepository.save(roleEntity);
-		RoleEntity retrievedRole=roleRepository.findOne(1);
+		RoleEntity retrievedRole=roleRepository.findOne(RolesEnum.BASIC.getId());
 		Assert.assertNotNull(retrievedRole);
 	}
 	
 	@Test
 	public void testUserRepository() {
-		UserEntity user=new UserEntity();
-		user.setUsername("user1");
-		user.setPassword("password");
-		user.setCountry("India");
-		user.setDescription("Basic user");
-		user.setFirstName("first");
-		user.setLastName("last");
-		user.setPhoneNumber("34676");
-		user.setProfileImageUrl("http://images.com");
-		user.setEnabled(true);
-		user.setEmail("www.user.com");
+		UserEntity user=UserUtils.createUser();
 		
-		PlanEntity plan=new PlanEntity();
-		plan.setId(1);
-		plan.setName("Basic");
+		PlanEntity plan=new PlanEntity(PlansEnum.BASIC);
 		planRepository.save(plan);
 		user.setPlanEntity(plan);
 		
-		RoleEntity roleEntity=new RoleEntity();
-		roleEntity.setId(1);
-		roleEntity.setName("User");
+		RoleEntity roleEntity=new RoleEntity(RolesEnum.BASIC);
 		roleRepository.save(roleEntity);
 		
 		Set<UserRoleEntity> userRoles=new HashSet<>();
-		UserRoleEntity userRole=new UserRoleEntity();
-		userRole.setRoleEntity(roleEntity);
-		userRole.setUserEntity(user);
+		UserRoleEntity userRole=new UserRoleEntity(user,roleEntity);
 		userRoles.add(userRole);
 		
 		user.getUserRoles().addAll(userRoles);

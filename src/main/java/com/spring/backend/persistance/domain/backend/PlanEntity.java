@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.spring.enums.PlansEnum;
+
 @Entity
 public class PlanEntity implements Serializable{
 	
@@ -15,6 +17,11 @@ public class PlanEntity implements Serializable{
 	
 	public PlanEntity() {
 		
+	}
+	
+	public PlanEntity(PlansEnum plansEnum) {
+		this.id=plansEnum.getId();
+		this.name=plansEnum.getPlanName();
 	}
 
 	public int getId() {

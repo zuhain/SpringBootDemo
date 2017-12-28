@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.spring.enums.RolesEnum;
+
 @Entity
 public class RoleEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -21,6 +23,11 @@ public class RoleEntity implements Serializable{
 	
 	public RoleEntity() {
 		
+	}
+	
+	public RoleEntity(RolesEnum rolesEnum) {
+		this.id=rolesEnum.getId();
+		this.name=rolesEnum.getRoleName();
 	}
 
 	public int getId() {
