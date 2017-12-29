@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,13 +14,16 @@ import javax.persistence.ManyToOne;
 public class UserRoleEntity implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
+	
 	@Id
-	@ManyToOne(fetch=FetchType.LAZY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private long id;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="userId")
 	private UserEntity userEntity;
 	
-	@Id
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="roleId")
 	private RoleEntity roleEntity;
 	
@@ -47,12 +52,19 @@ public class UserRoleEntity implements Serializable{
 		this.roleEntity = roleEntity;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((roleEntity == null) ? 0 : roleEntity.hashCode());
-		result = prime * result + ((userEntity == null) ? 0 : userEntity.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
 		return result;
 	}
 
@@ -65,18 +77,9 @@ public class UserRoleEntity implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		UserRoleEntity other = (UserRoleEntity) obj;
-		if (roleEntity == null) {
-			if (other.roleEntity != null)
-				return false;
-		} else if (!roleEntity.equals(other.roleEntity))
-			return false;
-		if (userEntity == null) {
-			if (other.userEntity != null)
-				return false;
-		} else if (!userEntity.equals(other.userEntity))
+		if (id != other.id)
 			return false;
 		return true;
 	}
-	
 	
 }

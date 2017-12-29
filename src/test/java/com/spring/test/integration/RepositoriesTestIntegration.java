@@ -60,29 +60,36 @@ public class RepositoriesTestIntegration {
 	
 	@Test
 	public void testUserRepository() {
-		UserEntity user=UserUtils.createUser();
-		
-		PlanEntity plan=new PlanEntity(PlansEnum.BASIC);
-		planRepository.save(plan);
-		user.setPlanEntity(plan);
-		
-		RoleEntity roleEntity=new RoleEntity(RolesEnum.BASIC);
-		roleRepository.save(roleEntity);
-		
-		Set<UserRoleEntity> userRoles=new HashSet<>();
-		UserRoleEntity userRole=new UserRoleEntity(user,roleEntity);
-		userRoles.add(userRole);
-		
-		user.getUserRoles().addAll(userRoles);
-		for(UserRoleEntity ure:userRoles) {
-			roleRepository.save(ure.getRoleEntity());
-		}
-		
-		user=userRepository.save(user);
+		UserEntity user=createUser();
 		UserEntity retrievedUser=userRepository.findOne(user.getId());
 		Assert.assertNotNull(retrievedUser);
 		Assert.assertNotNull(retrievedUser.getPlanEntity());
 		Assert.assertNotNull(retrievedUser);
 		
+	}
+	
+	@Test
+	public void testDeleteUser() {
+		UserEntity user=createUser();
+		userRepository.delete(user.getId());
+	}
+	
+	public UserEntity createUser() {
+		PlanEntity plan=new PlanEntity(PlansEnum.BASIC);
+		planRepository.save(plan);
+		
+		UserEntity user=UserUtils.createUser();
+		user.setPlanEntity(plan);
+		
+		RoleEntity role=new RoleEntity(RolesEnum.BASIC);
+		roleRepository.save(role);
+		
+		Set<UserRoleEntity> userRoles=new HashSet<>();
+		UserRoleEntity userRoleEntity=new UserRoleEntity(user, role);
+		userRoles.add(userRoleEntity);
+		
+		user.getUserRoles().addAll(userRoles);
+		user=userRepository.save(user);
+		return user;
 	}
 }

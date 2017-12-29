@@ -18,7 +18,7 @@ public class RoleEntity implements Serializable{
 	@Id
 	private int id;
 	private String name;
-	@OneToMany(mappedBy="roleEntity",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="roleEntity",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private Set<UserRoleEntity> userRole=new HashSet<>();
 	
 	public RoleEntity() {

@@ -7,5 +7,5 @@ import com.spring.backend.persistance.domain.backend.UserEntity;
 
 @Repository
 public interface UserRepository extends CrudRepository<UserEntity, Long>{
-
+	public UserEntity findByUsername(String username);
 }

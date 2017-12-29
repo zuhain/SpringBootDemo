@@ -11,11 +11,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import com.spring.backend.service.UserSecurityService;
+
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
-	
+	@Autowired
+	UserSecurityService userSecurityService;
 	@Autowired
 	private Environment environment;
 	public static final String[] PUBLIC_URL= {
@@ -49,7 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-		auth.inMemoryAuthentication().withUser("user")
-		.password("password").roles("USER");
+		auth.userDetailsService(userSecurityService);
 	}
 }
