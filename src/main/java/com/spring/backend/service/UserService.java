@@ -3,6 +3,7 @@ package com.spring.backend.service;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,9 +25,13 @@ public class UserService {
 	RoleRepository roleRepository;
 	@Autowired
 	PlanRepository planRepository;
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 	
 	@Transactional
 	public UserEntity createUser(UserEntity userEntity,PlansEnum plansEnum,Set<UserRoleEntity> userRoles) {
+		String encryptedPassword=passwordEncoder.encode(userEntity.getPassword());
+		userEntity.setPassword(encryptedPassword);
 		PlanEntity plan=new PlanEntity(plansEnum);
 		if(!planRepository.exists(plansEnum.getId()))
 			plan=planRepository.save(plan);
